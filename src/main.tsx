@@ -3,24 +3,13 @@ import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router';
 import App from './components/App.tsx';
 import './index.css';
-import Login from './components/Login.tsx';
-import Register from './components/Register.tsx';
+import './styles/index.css';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
     errorElement: <h2>Something were wrong</h2>,
-    children: [
-      {
-        path: 'login',
-        element: <Login />,
-      },
-      {
-        path: 'register',
-        element: <Register />,
-      },
-    ],
   },
 ]);
 
