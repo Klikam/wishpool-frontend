@@ -81,7 +81,7 @@ export default function LandingPage({
 
           <div className="flex flex-col gap-3">
             <SocialButton provider="google" onLogin={onLogin} />
-            <SocialButton provider="github" onLogin={onLogin} />
+            <SocialButton provider="apple" onLogin={onLogin} />
             <SocialButton provider="facebook" onLogin={onLogin} />
           </div>
 
