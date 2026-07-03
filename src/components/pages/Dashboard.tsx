@@ -1,6 +1,6 @@
 import type { User } from '@/types/user';
 import type { View } from '@/types/view';
-import type { Wishlist } from '@/types/wishlist';
+import { WishlistArraySchema, type Wishlist } from '@/types/wishlist';
 import { storageHelper } from '@/utils/storageHelper';
 import {
   ChevronRight,
@@ -24,13 +24,14 @@ export default function Dashboard({
   const wishlists = storageHelper.load<Wishlist[]>(
     storageHelper.STORAGE_KEYS.wishlists,
     [],
+    WishlistArraySchema,
   );
   const myLists = wishlists.filter(w => w.ownerId === currentUser.id);
 
   function deleteList(id: string) {
     const updated = wishlists.filter(w => w.id !== id);
     storageHelper.save(storageHelper.STORAGE_KEYS.wishlists, updated);
-    window.location.restorageHelper.load();
+    window.location.reload();
   }
 
   const occasionEmoji: Record<string, string> = {
@@ -83,7 +84,9 @@ export default function Dashboard({
             </h1>
           </div>
           <button
-            onClick={() => onNavigate({ type: 'create' })}
+            onClick={() => {
+              onNavigate({ type: 'create' });
+            }}
             className="flex items-center gap-2 px-5 py-2.5 bg-primary text-primary-foreground rounded-xl font-medium text-sm hover:bg-[#3a1232] transition-colors"
           >
             <Plus className="w-4 h-4" />
@@ -98,7 +101,9 @@ export default function Dashboard({
               No wishlists yet — create your first one!
             </p>
             <button
-              onClick={() => onNavigate({ type: 'create' })}
+              onClick={() => {
+                onNavigate({ type: 'create' });
+              }}
               className="px-5 py-2.5 bg-primary text-primary-foreground rounded-xl text-sm font-medium hover:bg-[#3a1232] transition-colors"
             >
               Create wishlist
@@ -112,7 +117,9 @@ export default function Dashboard({
                 <div
                   key={list.id}
                   className="bg-card rounded-2xl border border-border p-5 flex flex-col gap-4 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group"
-                  onClick={() => onNavigate({ type: 'wishlist', id: list.id })}
+                  onClick={() => {
+                    onNavigate({ type: 'wishlist', id: list.id });
+                  }}
                 >
                   <div className="flex items-start justify-between">
                     <span className="text-2xl">

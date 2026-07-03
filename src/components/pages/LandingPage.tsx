@@ -2,6 +2,7 @@ import { EyeOff, Gift, Star, Users } from 'lucide-react';
 import SocialButton from './SocialButton';
 
 import type { User } from '@/types/user';
+import EmailPassword from './EmailPassword';
 
 export default function LandingPage({
   onLogin,
@@ -82,6 +83,16 @@ export default function LandingPage({
             <SocialButton provider="google" onLogin={onLogin} />
             <SocialButton provider="github" onLogin={onLogin} />
             <SocialButton provider="facebook" onLogin={onLogin} />
+          </div>
+
+          <div className="flex items-center gap-3 mb-6 mt-6">
+            <div className="flex-1 h-px bg-border" />
+            <span className="text-xs text-muted-foreground">or use email</span>
+            <div className="flex-1 h-px bg-border" />
+          </div>
+
+          <div>
+            <EmailPassword onLogin={onLogin} />
           </div>
 
           <p className="text-xs text-muted-foreground mt-6 text-center leading-relaxed">

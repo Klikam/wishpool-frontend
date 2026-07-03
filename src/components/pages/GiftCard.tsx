@@ -102,14 +102,18 @@ export default function GiftCard({
             <div className="ml-auto">
               {!gift.claimed ? (
                 <button
-                  onClick={() => onClaim(gift.id)}
+                  onClick={() => {
+                    onClaim(gift.id);
+                  }}
                   className="px-3 py-1.5 bg-primary text-primary-foreground text-xs rounded-lg hover:bg-[#3a1232] transition-colors font-medium"
                 >
                   I'll gift this
                 </button>
               ) : iMine ? (
                 <button
-                  onClick={() => onUnclaim(gift.id)}
+                  onClick={() => {
+                    onUnclaim(gift.id);
+                  }}
                   className="px-3 py-1.5 bg-[#C4797A]/15 text-[#C4797A] text-xs rounded-lg hover:bg-[#C4797A]/25 transition-colors font-medium"
                 >
                   Undo

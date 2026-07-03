@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 
-import type { User } from '@/types/user';
+import { UserNullableSchema, type User } from '@/types/user';
 import type { View } from '@/types/view';
 
 import { storageHelper } from '@/utils/storageHelper';
@@ -9,17 +9,23 @@ import CreateWishlist from './pages/CreateWishlist';
 import Dashboard from './pages/Dashboard';
 import LandingPage from './pages/LandingPage';
 import WishlistView from './pages/WishlistView';
+import z from 'zod';
 
 // ── App Shell ─────────────────────────────────────────────────────────────────
 
 export default function App() {
   const [currentUser, setCurrentUser] = useState<User | null>(() =>
-    storageHelper.load(storageHelper.STORAGE_KEYS.currentUser, null),
+    storageHelper.load(
+      storageHelper.STORAGE_KEYS.currentUser,
+      null,
+      UserNullableSchema,
+    ),
   );
   const [guestToken] = useState<string>(() => {
     let t = storageHelper.load<string>(
       storageHelper.STORAGE_KEYS.guestToken,
       '',
+      z.string(),
     );
     if (!t) {
       t = storageHelper.genId() + storageHelper.genId();
@@ -35,7 +41,9 @@ export default function App() {
     return { type: currentUser ? 'dashboard' : 'landing' };
   });
 
-  const navigate = useCallback((v: View) => setView(v), []);
+  const navigate = useCallback((v: View) => {
+    setView(v);
+  }, []);
 
   function handleLogin(user: User) {
     storageHelper.save(storageHelper.STORAGE_KEYS.currentUser, user);
@@ -57,8 +65,12 @@ export default function App() {
     return (
       <CreateWishlist
         currentUser={currentUser}
-        onCreated={id => navigate({ type: 'wishlist', id })}
-        onCancel={() => navigate({ type: 'dashboard' })}
+        onCreated={id => {
+          navigate({ type: 'wishlist', id });
+        }}
+        onCancel={() => {
+          navigate({ type: 'dashboard' });
+        }}
       />
     );
   }
@@ -69,9 +81,9 @@ export default function App() {
         wishlistId={view.id}
         currentUser={currentUser}
         guestToken={guestToken}
-        onBack={() =>
-          navigate(currentUser ? { type: 'dashboard' } : { type: 'landing' })
-        }
+        onBack={() => {
+          navigate(currentUser ? { type: 'dashboard' } : { type: 'landing' });
+        }}
       />
     );
   }

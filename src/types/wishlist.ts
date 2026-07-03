@@ -1,13 +1,18 @@
-import type { GiftItem } from './giftItem';
+import z from 'zod';
+import { GiftItemSchema } from './giftItem';
 
-export interface Wishlist {
-  id: string;
-  ownerId: string;
-  ownerName: string;
-  title: string;
-  occasion: string;
-  date: string;
-  description: string;
-  gifts: GiftItem[];
-  createdAt: string;
-}
+const WishlistSchema = z.object({
+  id: z.string(),
+  ownerId: z.string(),
+  ownerName: z.string(),
+  title: z.string(),
+  occasion: z.string(),
+  date: z.string(),
+  description: z.string(),
+  gifts: z.array(GiftItemSchema),
+  createdAt: z.string(),
+});
+
+export const WishlistArraySchema = z.array(WishlistSchema);
+
+export type Wishlist = z.infer<typeof WishlistSchema>;

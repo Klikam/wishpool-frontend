@@ -1,5 +1,5 @@
 import type { User } from '@/types/user';
-import type { Wishlist } from '@/types/wishlist';
+import { WishlistArraySchema, type Wishlist } from '@/types/wishlist';
 import { storageHelper } from '@/utils/storageHelper';
 import { ChevronRight } from 'lucide-react';
 import { useState } from 'react';
@@ -36,6 +36,7 @@ export default function CreateWishlist({
     const wishlists = storageHelper.load<Wishlist[]>(
       storageHelper.STORAGE_KEYS.wishlists,
       [],
+      WishlistArraySchema,
     );
     const newList: Wishlist = {
       id: storageHelper.genId(),
@@ -81,7 +82,9 @@ export default function CreateWishlist({
               className="w-full px-4 py-3 rounded-xl bg-card border border-border text-sm outline-none focus:border-[#C4797A] transition-colors"
               placeholder="Emma's 30th Birthday"
               value={form.title}
-              onChange={e => setForm({ ...form, title: e.target.value })}
+              onChange={e => {
+                setForm({ ...form, title: e.target.value });
+              }}
             />
           </div>
 
@@ -91,7 +94,9 @@ export default function CreateWishlist({
               {occasions.map(occ => (
                 <button
                   key={occ}
-                  onClick={() => setForm({ ...form, occasion: occ })}
+                  onClick={() => {
+                    setForm({ ...form, occasion: occ });
+                  }}
                   className={`px-2 py-2 rounded-lg text-xs font-medium border transition-colors text-center ${
                     form.occasion === occ
                       ? 'bg-primary text-primary-foreground border-primary'
@@ -112,7 +117,9 @@ export default function CreateWishlist({
               type="date"
               className="w-full px-4 py-3 rounded-xl bg-card border border-border text-sm outline-none focus:border-[#C4797A] transition-colors"
               value={form.date}
-              onChange={e => setForm({ ...form, date: e.target.value })}
+              onChange={e => {
+                setForm({ ...form, date: e.target.value });
+              }}
             />
           </div>
 
@@ -125,7 +132,9 @@ export default function CreateWishlist({
               className="w-full px-4 py-3 rounded-xl bg-card border border-border text-sm outline-none focus:border-[#C4797A] transition-colors resize-none"
               placeholder="Thanks for celebrating with me! Anything on this list would make me so happy…"
               value={form.description}
-              onChange={e => setForm({ ...form, description: e.target.value })}
+              onChange={e => {
+                setForm({ ...form, description: e.target.value });
+              }}
             />
           </div>
 

@@ -1,4 +1,4 @@
-import type { User } from '@/types/user';
+import { UserArraySchema, type User } from '@/types/user';
 import { storageHelper } from '@/utils/storageHelper';
 import { MOCK_USERS } from '../mocks/users';
 
@@ -51,6 +51,7 @@ export default function SocialButton({
     const users = storageHelper.load<User[]>(
       storageHelper.STORAGE_KEYS.users,
       [],
+      UserArraySchema,
     );
     const existing = users.find(u => u.provider === provider);
     if (existing) {

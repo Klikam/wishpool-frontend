@@ -1,6 +1,6 @@
 import type { GiftItem } from '@/types/giftItem';
 import type { User } from '@/types/user';
-import type { Wishlist } from '@/types/wishlist';
+import { WishlistArraySchema, type Wishlist } from '@/types/wishlist';
 import { storageHelper } from '@/utils/storageHelper';
 import {
   Check,
@@ -27,7 +27,11 @@ export default function WishlistView({
   onBack: () => void;
 }) {
   const [wishlists, setWishlists] = useState<Wishlist[]>(() =>
-    storageHelper.load(storageHelper.STORAGE_KEYS.wishlists, []),
+    storageHelper.load(
+      storageHelper.STORAGE_KEYS.wishlists,
+      [],
+      WishlistArraySchema,
+    ),
   );
   const [copied, setCopied] = useState(false);
   const [showAddGift, setShowAddGift] = useState(false);
@@ -110,12 +114,14 @@ export default function WishlistView({
     setShowAddGift(false);
   }
 
-  function copyLink() {
-    navigator.clipboard.writeText(
+  async function copyLink() {
+    await navigator.clipboard.writeText(
       `${window.location.href.split('?')[0]}?list=${wishlistId}`,
     );
     setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    setTimeout(() => {
+      setCopied(false);
+    }, 2000);
   }
 
   if (!wishlist) {
@@ -150,7 +156,7 @@ export default function WishlistView({
           </button>
           <div className="flex items-center gap-2">
             <button
-              onClick={copyLink}
+              onClick={() => void copyLink()}
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-border text-sm text-foreground hover:bg-secondary transition-colors"
             >
               {copied ? (
@@ -162,7 +168,9 @@ export default function WishlistView({
             </button>
             {isOwner && (
               <button
-                onClick={() => setShowAddGift(true)}
+                onClick={() => {
+                  setShowAddGift(true);
+                }}
                 className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary text-primary-foreground text-sm font-medium hover:bg-[#3a1232] transition-colors"
               >
                 <Plus className="w-3.5 h-3.5" />
@@ -256,7 +264,9 @@ export default function WishlistView({
                 Add a gift
               </h2>
               <button
-                onClick={() => setShowAddGift(false)}
+                onClick={() => {
+                  setShowAddGift(false);
+                }}
                 className="text-muted-foreground hover:text-foreground"
               >
                 <X className="w-5 h-5" />
@@ -271,9 +281,9 @@ export default function WishlistView({
                   className="w-full px-3 py-2.5 rounded-lg bg-input-background border border-border text-sm outline-none focus:border-[#C4797A] transition-colors"
                   placeholder="e.g. Wireless headphones"
                   value={newGift.name}
-                  onChange={e =>
-                    setNewGift({ ...newGift, name: e.target.value })
-                  }
+                  onChange={e => {
+                    setNewGift({ ...newGift, name: e.target.value });
+                  }}
                 />
               </div>
               <div>
@@ -284,9 +294,9 @@ export default function WishlistView({
                   className="w-full px-3 py-2.5 rounded-lg bg-input-background border border-border text-sm outline-none focus:border-[#C4797A] transition-colors"
                   placeholder="Color, size, model…"
                   value={newGift.description}
-                  onChange={e =>
-                    setNewGift({ ...newGift, description: e.target.value })
-                  }
+                  onChange={e => {
+                    setNewGift({ ...newGift, description: e.target.value });
+                  }}
                 />
               </div>
               <div className="grid grid-cols-2 gap-3">
@@ -298,9 +308,9 @@ export default function WishlistView({
                     className="w-full px-3 py-2.5 rounded-lg bg-input-background border border-border text-sm outline-none focus:border-[#C4797A] transition-colors"
                     placeholder="€ 49.90"
                     value={newGift.price}
-                    onChange={e =>
-                      setNewGift({ ...newGift, price: e.target.value })
-                    }
+                    onChange={e => {
+                      setNewGift({ ...newGift, price: e.target.value });
+                    }}
                   />
                 </div>
                 <div>
@@ -311,9 +321,9 @@ export default function WishlistView({
                     className="w-full px-3 py-2.5 rounded-lg bg-input-background border border-border text-sm outline-none focus:border-[#C4797A] transition-colors"
                     placeholder="https://…"
                     value={newGift.url}
-                    onChange={e =>
-                      setNewGift({ ...newGift, url: e.target.value })
-                    }
+                    onChange={e => {
+                      setNewGift({ ...newGift, url: e.target.value });
+                    }}
                   />
                 </div>
               </div>
@@ -325,9 +335,9 @@ export default function WishlistView({
                   className="w-full px-3 py-2.5 rounded-lg bg-input-background border border-border text-sm outline-none focus:border-[#C4797A] transition-colors"
                   placeholder="https://… (optional)"
                   value={newGift.imageUrl}
-                  onChange={e =>
-                    setNewGift({ ...newGift, imageUrl: e.target.value })
-                  }
+                  onChange={e => {
+                    setNewGift({ ...newGift, imageUrl: e.target.value });
+                  }}
                 />
               </div>
               <button

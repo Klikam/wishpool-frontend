@@ -1,3 +1,5 @@
+import z from 'zod';
+
 export const storageHelper = {
   STORAGE_KEYS: {
     users: 'wishpool_users',
@@ -6,10 +8,13 @@ export const storageHelper = {
     guestToken: 'wishpool_guest_token',
   },
 
-  load<T>(key: string, fallback: T): T {
+  load<T>(key: string, fallback: T, schema: z.ZodType<T>): T {
     try {
       const raw = localStorage.getItem(key);
-      return raw ? JSON.parse(raw) : fallback;
+      if (!raw) return fallback;
+
+      const result = schema.safeParse(JSON.parse(raw) as unknown);
+      return result.success ? result.data : fallback;
     } catch {
       return fallback;
     }
