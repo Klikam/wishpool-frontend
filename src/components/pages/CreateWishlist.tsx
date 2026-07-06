@@ -4,22 +4,17 @@ import { storageHelper } from '@/utils/storageHelper';
 import { ChevronRight } from 'lucide-react';
 import { useState } from 'react';
 
+interface UserProps {
+  currentUser: User;
+  onCreated: (id: string) => void;
+  onCancel: () => void;
+}
+
 export default function CreateWishlist({
   currentUser,
   onCreated,
   onCancel,
-}: {
-  currentUser: User;
-  onCreated: (id: string) => void;
-  onCancel: () => void;
-}) {
-  const [form, setForm] = useState({
-    title: '',
-    occasion: 'Birthday',
-    date: '',
-    description: '',
-  });
-
+}: UserProps) {
   const occasions = [
     'Birthday',
     'Wedding',
@@ -29,7 +24,23 @@ export default function CreateWishlist({
     'Graduation',
     'Housewarming',
     'Other',
-  ];
+  ] as const;
+
+  type Ocasion = (typeof occasions)[number];
+
+  interface NewWishlist {
+    title: string;
+    occasion: Ocasion;
+    date: string;
+    description: string;
+  }
+
+  const [form, setForm] = useState<NewWishlist>({
+    title: '',
+    occasion: occasions[0],
+    date: '',
+    description: '',
+  });
 
   function handleCreate() {
     if (!form.title.trim()) return;

@@ -2,11 +2,11 @@ import { UserArraySchema, type User } from '@/types/user';
 import { useState } from 'react';
 import { storageHelper } from '../../utils/storageHelper';
 
-export default function EmailPassword({
-  onLogin,
-}: {
+interface EmailPasswordProps {
   onLogin: (user: User) => void;
-}) {
+}
+
+export default function EmailPassword({ onLogin }: EmailPasswordProps) {
   const [mode, setMode] = useState<'signin' | 'register'>('signin');
   const [emailForm, setEmailForm] = useState({
     name: '',

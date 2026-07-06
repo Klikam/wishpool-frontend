@@ -2,13 +2,12 @@ import { UserArraySchema, type User } from '@/types/user';
 import { storageHelper } from '@/utils/storageHelper';
 import { MOCK_USERS } from '../mocks/users';
 
-export default function SocialButton({
-  provider,
-  onLogin,
-}: {
+interface SocialButtonProps {
   provider: 'google' | 'apple' | 'facebook';
   onLogin: (user: User) => void;
-}) {
+}
+
+export default function SocialButton({ provider, onLogin }: SocialButtonProps) {
   const labels = {
     google: 'Continue with Google',
     apple: 'Continue with Apple',

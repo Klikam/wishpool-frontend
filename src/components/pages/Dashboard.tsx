@@ -12,15 +12,17 @@ import {
 } from 'lucide-react';
 import Avatar from './Avatar';
 
+interface DashboardProps {
+  currentUser: User;
+  onNavigate: (view: View) => void;
+  onLogout: () => void;
+}
+
 export default function Dashboard({
   currentUser,
   onNavigate,
   onLogout,
-}: {
-  currentUser: User;
-  onNavigate: (view: View) => void;
-  onLogout: () => void;
-}) {
+}: DashboardProps) {
   const wishlists = storageHelper.load<Wishlist[]>(
     storageHelper.STORAGE_KEYS.wishlists,
     [],

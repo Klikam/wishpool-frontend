@@ -6,14 +6,14 @@ export const storageHelper = {
     wishlists: 'wishpool_wishlists',
     currentUser: 'wishpool_current_user',
     guestToken: 'wishpool_guest_token',
-  },
+  } as const,
 
   load<T>(key: string, fallback: T, schema: z.ZodType<T>): T {
     try {
       const raw = localStorage.getItem(key);
       if (!raw) return fallback;
 
-      const result = schema.safeParse(JSON.parse(raw) as unknown);
+      const result = schema.safeParse(JSON.parse(raw));
       return result.success ? result.data : fallback;
     } catch {
       return fallback;

@@ -15,17 +15,19 @@ import {
 import { useState } from 'react';
 import GiftCard from './GiftCard';
 
+interface WishlistViewProps {
+  wishlistId: string;
+  currentUser: User | null;
+  guestToken: string;
+  onBack: () => void;
+}
+
 export default function WishlistView({
   wishlistId,
   currentUser,
   guestToken,
   onBack,
-}: {
-  wishlistId: string;
-  currentUser: User | null;
-  guestToken: string;
-  onBack: () => void;
-}) {
+}: WishlistViewProps) {
   const [wishlists, setWishlists] = useState<Wishlist[]>(() =>
     storageHelper.load(
       storageHelper.STORAGE_KEYS.wishlists,

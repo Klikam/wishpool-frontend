@@ -2,6 +2,15 @@ import type { GiftItem } from '@/types/giftItem';
 import { storageHelper } from '@/utils/storageHelper';
 import { Check, ExternalLink, Trash2 } from 'lucide-react';
 
+interface GiftCardProps {
+  gift: GiftItem;
+  isOwner: boolean;
+  guestToken: string;
+  onClaim: (id: string) => void;
+  onUnclaim: (id: string) => void;
+  onDelete?: (id: string) => void;
+}
+
 export default function GiftCard({
   gift,
   isOwner,
@@ -9,14 +18,7 @@ export default function GiftCard({
   onClaim,
   onUnclaim,
   onDelete,
-}: {
-  gift: GiftItem;
-  isOwner: boolean;
-  guestToken: string;
-  onClaim: (id: string) => void;
-  onUnclaim: (id: string) => void;
-  onDelete?: (id: string) => void;
-}) {
+}: GiftCardProps) {
   const myHash = storageHelper.hashToken(guestToken);
   const iMine = gift.claimedByHash === myHash;
 

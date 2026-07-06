@@ -4,11 +4,11 @@ import SocialButton from './SocialButton';
 import type { User } from '@/types/user';
 import EmailPassword from './EmailPassword';
 
-export default function LandingPage({
-  onLogin,
-}: {
+interface LandingPageProps {
   onLogin: (user: User) => void;
-}) {
+}
+
+export default function LandingPage({ onLogin }: LandingPageProps) {
   return (
     <div className="min-h-screen bg-background flex flex-col lg:flex-row">
       {/* Left: Hero */}
