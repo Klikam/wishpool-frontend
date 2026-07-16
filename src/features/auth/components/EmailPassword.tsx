@@ -1,6 +1,6 @@
 import { UserArraySchema, type User } from '@/types/user';
 import { useState } from 'react';
-import { storageHelper } from '../../utils/storageHelper';
+import { storageHelper } from '@/utils/storageHelper';
 
 interface EmailPasswordProps {
   onLogin: (user: User) => void;

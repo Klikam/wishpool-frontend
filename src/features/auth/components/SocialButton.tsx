@@ -1,6 +1,6 @@
 import { UserArraySchema, type User } from '@/types/user';
 import { storageHelper } from '@/utils/storageHelper';
-import { MOCK_USERS } from '../mocks/users';
+import { MOCK_USERS } from '../../../components/mocks/users';
 
 interface SocialButtonProps {
   provider: 'google' | 'apple' | 'facebook';
