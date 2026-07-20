@@ -1,9 +1,9 @@
 import z from 'zod';
 
-const min = 8;
-const max = 20;
-const minLengthErrorMessage = `Password must contain at least ${min.toString()} characters`;
-const maxLengthErrorMessage = `Password must contain no more than ${max.toString()} characters`;
+const passMin = 8;
+const passMax = 20;
+const minLengthErrorMessage = `Password must contain at least ${passMin.toString()} characters`;
+const maxLengthErrorMessage = `Password must contain no more than ${passMax.toString()} characters`;
 const uppercaseErrorMessage = `Password must contain at least one uppercase letter`;
 const lowercaseErrorMessage = `Password must contain at least one lowercase letter`;
 const numberErrorMessage = `Password must contain at least one number`;
@@ -11,30 +11,25 @@ const specialCharacterErrorMessage = `Password must contain at least one special
 
 const passwordSchema = z
   .string()
-  .min(min, { message: minLengthErrorMessage })
-  .max(max, { message: maxLengthErrorMessage })
-  .refine(password => /[A-Z]/.test(password), {
-    message: uppercaseErrorMessage,
-  })
-  .refine(password => /[a-z]/.test(password), {
-    message: lowercaseErrorMessage,
-  })
-  .refine(password => /[0-9]/.test(password), { message: numberErrorMessage })
-  .refine(password => /[!@#$%^&*]/.test(password), {
-    message: specialCharacterErrorMessage,
-  });
+  .min(passMin, minLengthErrorMessage)
+  .max(passMax, maxLengthErrorMessage)
+  .refine((password) => /[A-Z]/.test(password), uppercaseErrorMessage)
+  .refine((password) => /[a-z]/.test(password), lowercaseErrorMessage)
+  .refine((password) => /[0-9]/.test(password), numberErrorMessage)
+  .refine(
+    (password) => /[!@#$%^&*]/.test(password),
+    specialCharacterErrorMessage,
+  );
+
+const nameMin = 3;
+const nameMinLengthErrorMessage = `Name must contain at least ${nameMin.toString()} characters`;
 
 export const CredentialsSchema = z.object({
-  name: z.string().min(3),
+  name: z.string().min(3, nameMinLengthErrorMessage),
   email: z.email(),
   password: passwordSchema,
 });
 
 export type Credentials = z.infer<typeof CredentialsSchema>;
-
-export interface CredentialsState {
-  emailForm: Credentials;
-  setEmailForm: (emailForm: Credentials) => void;
-}
 
 export type Mode = 'signin' | 'register';

@@ -1,10 +1,12 @@
-import type { Credentials, CredentialsState } from '../types/credentials';
+import type { Credentials } from '../types/credentials';
+import type { UseFormRegister } from 'react-hook-form';
 
 interface CredentialsFieldProps {
   label: string;
   field: keyof Credentials;
   placeholder: string;
   type: React.HTMLInputTypeAttribute;
+  register: UseFormRegister<Credentials>;
 }
 
 export default function CredentialsField({
@@ -12,21 +14,21 @@ export default function CredentialsField({
   field,
   placeholder,
   type,
-  emailForm,
-  setEmailForm,
-}: CredentialsFieldProps & CredentialsState) {
+  register,
+}: CredentialsFieldProps) {
+  const id = label.trim().replaceAll(' ', '').toLowerCase();
   return (
     <div>
-      <label className="block text-sm font-medium mb-1.5">{label}</label>
+      <label htmlFor={id} className="block text-sm font-medium mb-1.5">
+        {label}
+      </label>
       <input
+        id={id}
         type={type}
         required
         className="w-full px-4 py-2.5 rounded-xl bg-input-background border border-border text-sm outline-none focus:border-[#C4797A] transition-colors"
         placeholder={placeholder}
-        value={emailForm[field]}
-        onChange={e => {
-          setEmailForm({ ...emailForm, [field]: e.target.value });
-        }}
+        {...register(field)}
       />
     </div>
   );

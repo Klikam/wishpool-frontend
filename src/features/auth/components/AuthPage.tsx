@@ -1,12 +1,14 @@
 import SocialButton from './SocialButton';
-import EmailPassword from './EmailPassword';
+import CredentialsPage from './CredentialsPage';
 import type { User } from '@/types/user';
+import type { useRegister } from '../hooks/useRegister';
 
 interface LandingPageProps {
   onLogin: (user: User) => void;
 }
 
 export default function AuthPage({ onLogin }: LandingPageProps) {
+  const {} = useRegister();
   return (
     <div className="lg:w-1/2 flex items-center justify-center p-8 lg:p-16">
       <div className="w-full max-w-sm">
@@ -32,7 +34,7 @@ export default function AuthPage({ onLogin }: LandingPageProps) {
         </div>
 
         <div>
-          <EmailPassword onLogin={onLogin} />
+          <CredentialsPage onLogin={onLogin} />
         </div>
 
         <p className="text-xs text-muted-foreground mt-6 text-center leading-relaxed">
