@@ -6,16 +6,17 @@ import CredentialsButton from './CredentialsButton';
 import CredentialsField from './CredentialsField';
 
 export default function CredentialsPage({
-  onLogin,
+  onRegister,
 }: {
-  onLogin: (credentials: Credentials) => void;
+  onRegister: (credentials: Credentials) => Promise<string | undefined>;
 }) {
   const { mode } = useCredentialsStore();
   const { changeMode } = useCredentialsStore((state) => state.actions);
 
-  const onSubmit: SubmitHandler<Credentials> = (data) => {
-    onLogin(data);
+  const onSubmit: SubmitHandler<Credentials> = async (data) => {
     console.log(data);
+    const response = await onRegister(data);
+    console.log(response);
   };
 
   const {
