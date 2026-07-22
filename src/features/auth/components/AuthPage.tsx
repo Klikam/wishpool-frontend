@@ -2,10 +2,17 @@ import SocialButton from './SocialButton';
 import CredentialsPage from './CredentialsPage';
 import type { User } from '@/types/user';
 import { register } from '../api/auth';
+import { findMany } from '../api/wishlists';
 
 interface LandingPageProps {
   onLogin: (user: User) => void;
 }
+
+const handleClick = async () => {
+  const data = await findMany();
+  console.log(data);
+  console.log(JSON.stringify(data));
+};
 
 export default function AuthPage({ onLogin }: LandingPageProps) {
   return (
@@ -34,6 +41,10 @@ export default function AuthPage({ onLogin }: LandingPageProps) {
 
         <div>
           <CredentialsPage onRegister={register} />
+        </div>
+
+        <div className="mt-4 p-2 bg-red-500 rounded-2xl text-center">
+          <button onClick={() => void handleClick}>Test it</button>
         </div>
 
         <p className="text-xs text-muted-foreground mt-6 text-center leading-relaxed">
